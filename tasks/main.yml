@@ -2,3 +2,11 @@
 # tasks file for cribl-role
 
 - include_tasks: users.yml
+
+- include_tasks: disk.yml
+
+- include_tasks: firewall.yml
+
+- include_tasks: setlimits.yml
+
+- include_tasks: cribl.yml

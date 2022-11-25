@@ -1,0 +1,41 @@
+---
+- name: Check that the cribl tarball package exists
+  stat:
+    path: "/tmp/{{ package }}-{{ version }}-{{ build }}-{{ os }}-{{ architecture }}.{{ extension }}"
+  become: false
+  delegate_to: 127.0.0.1
+  register: tarball_result
+
+- name: Download cribl tar ball with check (sha256)
+  get_url:
+    url: "{{ url }}/{{ version }}/{{ package }}-{{ version }}-{{ build }}-{{ os }}-{{ architecture }}.{{ extension }}"
+    dest: "/tmp/{{ package }}-{{ version }}-{{ build }}-{{ os }}-{{ architecture }}.{{ extension }}"
+    checksum: "{{ cribl_tarball_hash }}"
+  become: false
+  delegate_to: 127.0.0.1
+  when: not tarball_result.stat.exists
+
+- name: Copy cribl tarball to target host
+  copy:
+    src: "/tmp/{{ package }}-{{ version }}-{{ build }}-{{ os }}-{{ architecture }}.{{ extension }}"
+    dest: "/tmp/{{ package }}-{{ version }}-{{ build }}-{{ os }}-{{ architecture }}.{{ extension }}"
+    owner: cribl
+    group: cribl
+
+- name: Unarchive the Cribl software to /opt/cribl
+  unarchive:
+    src: "/tmp/{{ package }}-{{ version }}-{{ build }}-{{ os }}-{{ architecture }}.{{ extension }}"
+    dest: /opt/
+    remote_src: yes
+    owner: "{{ cribl.user }}"
+    group: "{{ cribl.group }}"
+
+- name: Ensure Cribl is started and enabled with systemd...yuck
+  systemd:
+    state: started
+    enabled: yes
+    name: cribl
+
+- name: "Message to user"
+  debug:
+    msg: "Standalone Cribl instance deployed"

@@ -9,23 +9,8 @@
     groups: "{{ cribl_group }}"
     shell: /sbin/nologin
 
-# - name: Create .ssh folder.
-#   file:
-#     path: "/home/{{ cribl_user }}/.ssh"
-#     state: directory
-#     owner: "{{ cribl_user }}"
-#     group: "{{ cribl_user }}"
-#     mode: 0700
-
-# - name: Add SSH key to cribl user account.
-#   ansible.posix.authorized_key:
-#     user: "{{ cribl_user }}"
-#     state: present
-#     key: "{{ lookup('file', cribl_user_ssh_pubkey_file) }}"
-
-# - name: Add Mastodon user.
-#   ansible.builtin.user:
-#     name: "{{ mastodon_user }}"
-#     shell: /sbin/nologin
-#     create_home: true
-#     state: present
+- name: Fetch the ssh private key
+  fetch:
+    src: "/home/{{ cribl_user }}/.ssh/id_rsa"
+    dest: "~/.ssh/cribl"
+    flat: true

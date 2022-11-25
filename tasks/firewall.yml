@@ -1,0 +1,12 @@
+---
+- name: Allow all access to tcp port 80
+  ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+  loop:
+    - 22
+    - 9000
+    - 10080
+    - 10420
+    - 10000

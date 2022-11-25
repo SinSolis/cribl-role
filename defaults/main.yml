@@ -2,3 +2,32 @@
 # defaults file for cribl-role
 cribl_user: cribl
 cribl_group: adm,admin
+
+url: "https://cdn.cribl.io/dl"
+package: "cribl"
+os: "linux"
+version: "4.0.0"
+build: "4eee3fda"
+architecture: "x64"
+extension: "tgz"
+cribl_tarball_hash: "sha256:96470855dafff81c3f1e2fd14fd8bf384f4883f5f6d15f750210e671e4454c9c"
+
+# Defaults for VMware (/dev/sdb,/dev/sdc,/dev/sdd)
+# Defaults for Azure (/dev/sdc,/dev/sdd,/dev/sde)
+# Override in either group_vars or host_vars
+lvm:
+  disks: "/dev/xvdb,/dev/xvdc,/dev/xvdd"
+  lvm_vg: "criblcorevg"
+  lvm_vol: "criblcorevol"
+  grow_size: "100%FREE"
+  
+cribl:
+  softwaredir: "/opt/cribl"
+  user: "cribl"
+  group: "cribl"
+  mode: "0755"
+
+firewall:
+  rules:
+    allow:
+      - 9000/tcp
