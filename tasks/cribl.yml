@@ -30,6 +30,15 @@
     owner: "{{ cribl.user }}"
     group: "{{ cribl.group }}"
 
+- name: Cribl unit file
+  copy:
+    src: cribl.service
+    dest: /etc/systemd/system/cribl.service
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+    backup: true
+
 - name: Ensure Cribl is started and enabled with systemd...yuck
   systemd:
     state: started
