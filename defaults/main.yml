@@ -1,0 +1,4 @@
+---
+# defaults file for cribl-role
+cribl_user: cribl
+cribl_group: adm,admin

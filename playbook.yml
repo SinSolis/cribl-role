@@ -1,0 +1,11 @@
+---
+- hosts: stationxero01
+  become: yes
+  tasks:
+    - name: Print a message
+      ansible.builtin.debug:
+        msg: "this task runs before the example role"
+
+    - name: Include the example role
+      include_role:
+        name: cribl-role

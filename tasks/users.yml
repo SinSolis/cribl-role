@@ -1,0 +1,31 @@
+---
+- name: Create cribl user account.
+  user:
+    name: "{{ cribl_user }}"
+    createhome: true
+    home: "/home/{{ cribl_user }}"
+    generate_ssh_key: true
+    ssh_key_comment: "ansible-{{ inventory_hostname }}"
+    groups: "{{ cribl_group }}"
+    shell: /sbin/nologin
+
+# - name: Create .ssh folder.
+#   file:
+#     path: "/home/{{ cribl_user }}/.ssh"
+#     state: directory
+#     owner: "{{ cribl_user }}"
+#     group: "{{ cribl_user }}"
+#     mode: 0700
+
+# - name: Add SSH key to cribl user account.
+#   ansible.posix.authorized_key:
+#     user: "{{ cribl_user }}"
+#     state: present
+#     key: "{{ lookup('file', cribl_user_ssh_pubkey_file) }}"
+
+# - name: Add Mastodon user.
+#   ansible.builtin.user:
+#     name: "{{ mastodon_user }}"
+#     shell: /sbin/nologin
+#     create_home: true
+#     state: present
